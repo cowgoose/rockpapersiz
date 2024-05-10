@@ -16,62 +16,80 @@ function getComputerChoice(){
     return word;
 }
 
-//game 
-function playRound(playerChoice, computerChoice){
-    let computerResponse = getComputerChoice();
-    let playerResponse;
-    let counter = 0;
-
-
-    
-    //base case
-    do{
-        playerResponse = prompt("Please type rock, paper, or scissors!").toLowerCase(); 
-        
-        if(playerResponse != "rock" && playerResponse !=  "paper" && playerResponse !=  "scissors"){
-            alert("please put the correct choice");
-            counter = 0;
-        } 
-    }
-    while(playerResponse != "rock" && playerResponse !=  "paper" && playerResponse !=  "scissors"){
-
-        if(playerResponse == computerResponse){
-            console.log("Try again");
-            return alert("A tie! Try again");
-        
-        }
-        else if(playerResponse == "rock" && computerResponse == "paper"){
-            console.log("rockpaper");
-            return alert("Computer Wins!")
-        }
-        else if(playerResponse == "paper" && computerResponse == "scissors"){
-            console.log("paperscissors");
-            return alert("Computer Wins!")
-        }
-        else if(playerResponse == "scissors" && computerResponse == "rock"){
-            console.log("scissorsrock");
-            return alert("Computer Wins!")
-        }
-        else{
-            console.log("otherwin");
-            counter++;
-            return alert("You win! Congrats!")
-        }
-     
-    }
-
+function message(mes){
+    const result = document.querySelector("#result");
+    result.textContent = mes;
 }
 
-const playerSelection = "rock";
+function showScore(){
+    const pscore = document.querySelector('#score');
+    const cscore = document.querySelector('#cscore');
+    pscore.textContent = 'player score : ' + playerscore;
+    cscore.textContent = 'computer score : ' +  compscore;
+}
 
-const computerSelection = getComputerChoice();
-console.log(playRound(playerSelection, computerSelection));
+function winCondition(mes){
+    const win = document.querySelector("#win");
+    if(playerscore == 5){
+        playerscore = 0;
+        compscore = 0;
+        win.textContent = 'you win'
+        window = true;
+    }
+    else if(compscore == 5){
+        playerscore = 0;
+        compscore = 0;
+        win.textContent = 'you lose'
+        window = true; 
+    }
+    else if(playerscore < 5 && compscore < 5) {  
+        win.textContent = '';
+    }
+}
 
-//restart button
-const restart = document.getElementById("restart");
-restart.addEventListener("click", function() {
-    counter = 0;
-    playRound();
-});
+let compscore = 0;
+let playerscore = 0;
+
+//game 
+function playRound(playerChoice, computerChoice){
+
+    if(playerChoice == computerChoice){
+        message("It's a tie!");
+        
+    }
+    else if(playerChoice == "rock" && computerChoice == "paper"){
+        compscore++;
+        message("computer wins with paper!");
+    }
+    else if(playerChoice == "paper" && computerChoice == "scissors"){
+        compscore++;
+        message("computer wins with scissors!");
+    }
+    else if(playerChoice == "scissors" && computerChoice == "rock"){
+        compscore++;
+        message("computer wins with rock!");
+    }
+    else{
+        playerscore++;
+        message("You win this round!");
+    }
+    
+    showScore();
+    winCondition();
+     
+}
+
+const rock = document.querySelector("#rock");
+const paper = document.querySelector("#paper");
+const scissors = document.querySelector("#scissors");
+
+rock.onclick = () => playRound("rock", getComputerChoice());
+paper.onclick = () => playRound("paper", getComputerChoice());
+scissors.onclick = () => playRound("scissors", getComputerChoice());
+
+
+
+
+
 
 
